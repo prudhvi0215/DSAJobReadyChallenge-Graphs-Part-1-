@@ -1,0 +1,26 @@
+    int v,e;
+    
+    cout<<"Enter number of vertices and edges: "<<"\n";
+    cin>>v>>e;
+    
+    //Adjacency Matrix
+    int **graph = new int*[v];
+    
+    //Filling all the edges as 0, Since just the vertices are present
+    for(int i=0;i<v;i++){
+        graph[i] = new int[v];
+        for(int j=0;j<v;j++){
+            graph[i][j] = 0;
+        }
+    }
+    
+    //Here the user provides the edges between the vertices.
+    for(int i=0;i<e;i++){
+        cout<<"Enter edges:"<<"\n";
+        int f,s;
+        cin>>f>>s;
+        
+        //f stands for first_vertex and s stands for second_vertex.
+        graph[f][s] = 1;
+        graph[s][f] = 1;
+    }
