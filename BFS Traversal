@@ -1,0 +1,27 @@
+void printBFS(int **graph,int v,int sv,bool *visited)
+{
+    queue<int> pendingVertices;
+    pendingVertices.push(sv);
+    visited[sv] = true;
+    
+    while(pendingVertices.size()!=0)
+    {
+        int vertex = pendingVertices.front();
+        pendingVertices.pop();
+        
+        for(int i=0;i<v;i++)
+        {
+            if(vertex == i){
+                continue;
+            }
+            
+            if(graph[vertex][i]==1){
+                if(!visited[i]){
+                    pendingVertices.push(i);
+                    visited[i] = true;
+                }
+            }
+        }
+        cout<<vertex<<" ";
+    }
+}
