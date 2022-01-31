@@ -1,0 +1,36 @@
+bool HasPathHelper(int **graph,int v,int source,int destination,bool *visited)
+{
+    if(graph[source][destination] == 1){
+        return true;
+    }
+    
+    visited[source] = 1;
+    
+    for(int i=0;i<v;i++)
+    {
+        if(i==source){
+            continue;
+        }
+        
+        if(graph[source][i] == 1)
+        {
+            if(!visited[i]){
+                return HasPathHelper(graph,v,i,destination,visited);
+            }
+        }
+    }
+    return false;
+}
+
+//2) Has path function
+void HasPath(int **graph,int v,int source,int destination)
+{
+    bool *visited = new bool[v];
+    for(int k=0;k<v;k++){
+        visited[k] = false;
+    }
+    
+    cout<<(HasPathHelper(graph,v,source,destination,visited)?"True":"False");
+    
+    return;
+}
