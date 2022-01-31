@@ -1,0 +1,61 @@
+void dfs(int **graph,int v,int sv,bool *visited)
+{
+    visited[sv] = true;
+    
+    for(int i=0;i<v;i++){
+        if(graph[sv][i]==1 && !visited[i]){
+            dfs(graph,v,i,visited);
+        }
+    }
+    return;
+}
+
+//5) isConnected Optimal Approach
+bool isConnected_Optimal(int **graph,int v)
+{
+    bool *visited = new bool[v]();
+    
+    dfs(graph,v,0,visited);
+    
+    for(int i=0;i<v;i++)
+    {
+        if(!visited[i]){
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+bool isConnectedHelper_Brute(int **graph,int v,int sv)
+{
+    for(int i=0;i<v;i++)
+    {
+        if(i==sv){
+            continue;
+        }
+        
+        if(graph[sv][i]==1){
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// 5) isConnected brute approach
+bool isConnected_Brute(int **graph,int v)
+{
+    if(v==1){
+        return true;
+    }
+    
+    for(int i=0;i<v;i++){
+        bool ans = isConnectedHelper_Brute(graph,v,i);
+        if(!ans){
+            return false;
+        }
+    }
+    
+    return true;
+}
