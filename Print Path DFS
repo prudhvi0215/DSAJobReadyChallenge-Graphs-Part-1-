@@ -1,0 +1,51 @@
+vector<int> getPathDFS(int **graph,int v,int source,int destination,bool *visited,bool *Present)
+{
+    vector<int> sol;
+    
+    if(source == destination){
+        sol.push_back(destination);
+        (*Present) = true;
+        return sol;
+    }
+    
+    visited[source] = true;
+    
+    for(int i=0;i<v;i++)
+    {
+        if(source==i){
+            continue;
+        }
+        
+        if(graph[source][i]==1)
+        {
+            if(!visited[i]){
+                sol = getPathDFS(graph,v,i,destination,visited,Present);
+                if((*Present)){
+                    sol.push_back(source);
+                    return sol;
+                }
+            }
+        }
+    }
+    return sol;
+}
+
+//3)
+
+void getPathDFS(int **graph,int v,int source,int destination)
+{
+    bool *visited = new bool[v];
+    for(int k=0;k<v;k++){
+        visited[k] = false;
+    }
+    
+    bool present = false;
+    
+    vector<int> ans = getPathDFS(graph,v,source,destination,visited,&present);
+    
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i]<<" ";
+    }
+    
+    return;
+}
