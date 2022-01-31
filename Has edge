@@ -1,0 +1,10 @@
+void HasEdge(int **graph, int v,int source, int destination)
+{
+    if(graph[source][destination]==1){
+        cout<<"True";
+    }else{
+        cout<<"False";
+    }
+    
+    return;
+}
