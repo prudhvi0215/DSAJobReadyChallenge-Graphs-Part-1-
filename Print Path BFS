@@ -1,0 +1,61 @@
+//4) Get path BFS, uses the concept of PARENT-CHILD technique.
+vector<int> getPathBFS(int **graph,int v,int source,int destination,bool *visited)
+{
+    queue<int> pv;
+    pv.push(source);
+    
+    visited[source] = true;
+    
+    vector<int> ans;
+    unordered_map<int,int> parent;
+    
+    parent[source] = -1;
+    
+    while(pv.size()!=0)
+    {
+        int vertex = pv.front();
+        pv.pop();
+        
+        for(int i=0;i<v;i++)
+        {
+            if(i==vertex){
+                continue;
+            }
+            
+            if(graph[vertex][i]==1)
+            {
+                if(!visited[i]){
+                    pv.push(i);
+                    visited[i] = true;
+                    parent[i] = vertex;
+                    
+                    if(i==destination){
+                        while(i!=-1){
+                            ans.push_back(i);
+                            i = parent[i];
+                        }
+                        return ans;
+                    }
+                }
+            }
+        }
+    }
+    
+    return ans;
+}
+
+void getPathBFS(int **graph,int v,int source,int destination)
+{
+    bool *visited = new bool[v];
+    for(int i=0;i<v;i++){
+        visited[i] = false;
+    }
+    
+    vector<int> ans = getPathBFS(graph,v,source,destination,visited);
+    
+    for(int i=0;i<ans.size();i++){
+        cout<<ans[i]<<" ";
+    }
+    
+    return;
+}
