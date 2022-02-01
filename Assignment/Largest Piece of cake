@@ -1,0 +1,72 @@
+// 4) Largest Piece
+
+bool validatePoint(int x,int y,int n) {
+    return (x>=0 && x<n && y>=0 && y<n);
+}
+
+void dfsCakeCut(vector<vector<int>> &cake,int x,int y,int n, int &maxSoFar,vector<vector<bool>> &visited)
+{
+    if(cake[x][y]==1){
+        ++maxSoFar;
+    }
+    
+    visited[x][y] = true;
+    
+    int dx[] = {1,-1,0,0};
+    int dy[] = {0,0,1,-1};
+    
+    for(int i=0;i<4;i++)
+    {
+        int newX = x + dx[i];
+        int newY = y + dy[i];
+        
+        if(validatePoint(newX,newY,n) && cake[newX][newY] == 1 && !visited[newX][newY]){
+            dfsCakeCut(cake,newX,newY,n,maxSoFar,visited);
+        }
+    }
+    return;
+}
+
+
+int getBiggestPiece(vector<vector<int>> &cake,int n)
+{
+    vector<vector<bool>> visited(n,vector<bool>(n,false));
+    
+    int BiggestPiece = 0;
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            int maxSoFar=0;
+            
+            if(!visited[i][j] && cake[i][j]==1){
+                dfsCakeCut(cake,i,j,n,maxSoFar,visited);
+            }
+            
+            BiggestPiece = max(BiggestPiece,maxSoFar);
+        }
+    }
+    return BiggestPiece;
+}
+
+
+void largestPiece()
+{
+    int n;
+    
+    cout<<"Enter Cake Size: "<<"\n";
+    
+    cin>>n;
+    
+    vector<vector<int>> cake(n,vector<int>(n));
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cin>>cake[i][j];
+        }
+    }
+    
+    cout<<getBiggestPiece(cake,n);
+    return;
+}
