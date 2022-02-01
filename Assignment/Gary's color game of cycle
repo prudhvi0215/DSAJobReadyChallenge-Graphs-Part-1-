@@ -1,0 +1,81 @@
+//3) 
+// Connecting the dots
+
+
+// This Problem follows concept of moving in 4 directions only. Since we need 
+// to find the matching colours in the board.
+
+// Movement should be in bottom,top,right,left manner.
+
+void findCycle_DFS(vector<vector<char>> &board, int n, int m,int x,int y,int prevX,int prevY,char needColor,bool &foundPath,vector<vector<bool>> &visited)
+{
+    if(x<0 || x>=n || y<0 || y>=m){
+        return;
+    }
+    
+    if(board[x][y]!=needColor){
+        return;
+    }
+    
+    if(visited[x][y]){
+        foundPath = true;
+        return;
+    }
+    
+    visited[x][y] = true;
+    
+    int dx[4] = {1,-1,0,0};
+    int dy[4] = {0,0,1,-1};
+    
+    for(int i=0;i<4;i++)
+    {
+        int nextX = x + dx[i];
+        int nextY = y + dy[i];
+        
+        if(nextX==prevX && nextY==prevY){
+            continue;
+        }
+        findCycle_DFS(board,n,m,nextX,nextY,x,y,needColor,foundPath,visited);
+    }
+    return;
+}
+
+
+
+bool findCycle_DFS(vector<vector<char>> &board, int n, int m)
+{
+    vector<vector<bool>> visited(n,vector<bool>(m,false));
+    
+    bool foundCycle = false;
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(!visited[i][j]){
+                findCycle_DFS(board,n,m,i,j,-1,-1,board[i][j],foundCycle,visited);
+            }
+        }
+    }
+    
+    return foundCycle;
+}
+
+void findCycle()
+{
+    int n;
+    int m;
+    
+    cin>>n>>m;
+    
+    vector<vector<char>> board(n,vector<char>(m));
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>board[i][j];
+        }
+    }
+    
+    cout<<(findCycle_DFS(board,n,m)?"True":"False");
+    return;
+}
