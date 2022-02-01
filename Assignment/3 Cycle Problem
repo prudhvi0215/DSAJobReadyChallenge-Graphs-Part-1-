@@ -1,0 +1,78 @@
+// 5) 3 Cycle
+
+// There exists brute approach of running 3 loops but i used 
+// simple of saving prevVertex and currentVertex and asking recursion to do
+// the remaining work.
+
+// For better understanding of this problem, refer notebook's hand written and
+// dry runned test cases.
+
+void cyclesCount(vector<vector<int>> &graph, int v,int currentVertex,int prevVertex,int &cycles,vector<bool> &visited)
+{
+    visited[currentVertex] = true;
+    
+    for(int i=0;i<v;i++)
+    {
+        if(i==currentVertex){
+            continue;
+        }
+        
+        if(graph[currentVertex][i]==1 && !visited[i])
+        {
+            if(prevVertex!=-1){
+                if(graph[prevVertex][i]==1){
+                    cycles+=1;
+                    continue;
+                }
+            }
+            
+            cyclesCount(graph,v,i,currentVertex,cycles,visited);
+        }
+    }
+    
+    return;
+}
+
+
+int threeCycle(vector<vector<int>> &graph,int v,int e)
+{
+    if(e==0){
+        return 0;
+    }
+    
+    vector<bool> visited(v,false);
+    
+    int totalCycles = 0;
+    
+    for(int i=0;i<v;i++)
+    {
+        if(!visited[i])
+        {
+            int cycles = 0;
+            cyclesCount(graph,v,i,-1,cycles,visited);
+            totalCycles += cycles;
+        }
+    }
+    
+    return totalCycles;
+}
+
+
+
+void cycleDetection() {
+    
+    int v,e;
+    cin>>v>>e;
+    
+    vector<vector<int>> graph(v,vector<int>(v,0));
+    
+    for(int i=0;i<e;i++)
+    {
+        int fv,sv;
+        cin>>fv>>sv;
+        graph[fv][sv] = 1;
+        graph[sv][fv] = 1;
+    }
+    
+    cout<<threeCycle(graph,v,e);
+}
